@@ -18,6 +18,8 @@ class LookupModule(LookupBase):
             field = None
 
         url = os.getenv('VAULT_ADDR')
+        if not token:
+            token - self.get_local_auth_token()
         if not url:
             raise AnsibleError('VAULT_ADDR environment variable is missing')
 
@@ -38,3 +40,10 @@ class LookupModule(LookupBase):
         result = json.loads(response.read())
 
         return [result['data'][field]] if field is not None else [result['data']]
+
+    def get_local_auth_token(self):
+        locpath = os.getenv('HOME') + '/.vault-token'
+        retval = ''
+        with file(locpath) as f:
+            retval = f.read()
+        return retval

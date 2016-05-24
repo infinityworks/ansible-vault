@@ -12,6 +12,9 @@ The address to the Vault server and the auth token are fetched from environment 
     export VAULT_ADDR=http://192.168.33.10:8200/
     export VAULT_TOKEN=56f48aef-8ad3-a0c4-447b-8e96990776ff
 
+if VAULT_TOKEN is not set, vault.py will retrieve the auth token from $HOME/.vault-token (allows for adhoc auth by users)
+an exception is thrown if both VAULT_TOKEN and $HOME/.vault-token do not yield a GUID format token.
+
 ansible-vault then works as any other lookup plugin.
 
 ```yaml

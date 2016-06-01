@@ -23,7 +23,7 @@ class LookupModule(LookupBase):
 
         token = os.getenv('VAULT_TOKEN')
         if not token:
-            token - self.get_local_auth_token()
+            token = self.get_local_auth_token()
         if not token:
             raise AnsibleError('VAULT_TOKEN environment variable is missing')
 
@@ -46,4 +46,4 @@ class LookupModule(LookupBase):
         retval = ''
         with file(locpath) as f:
             retval = f.read()
-        return retval
+        return str(retval)

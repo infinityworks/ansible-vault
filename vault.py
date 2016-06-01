@@ -29,9 +29,14 @@ class LookupModule(LookupBase):
 
         request_url = urljoin(url, "v1/%s" % (key))
         try:
+            # remove the proxy route from urllib2 to allow it to connect to an SSL endpoint
+            # http://www.decalage.info/en/python/urllib2noproxy
+            proxy_handler = urllib2.ProxyHandler({})
+            opener = urllib2.build_opener(proxy_handler)
+            
             headers = { 'X-Vault-Token' : token }
             req = urllib2.Request(request_url, None, headers)
-            response = urllib2.urlopen(req)
+            response = opener.open(req)
         except urllib2.HTTPError as e:
             raise AnsibleError('Unable to read %s from vault: %s' % (key, e))
         except:

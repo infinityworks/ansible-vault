@@ -29,7 +29,7 @@ class LookupModule(LookupBase):
 
         request_url = urljoin(url, "v1/%s" % (key))
         try:
-            # remove the proxy route from urllib2 to allow it to connect to an SSL endpoint
+            # remove the proxy route from urllib2 to allow it to connect to an SSL endpoint without routing via the proxy.
             # http://www.decalage.info/en/python/urllib2noproxy
             proxy_handler = urllib2.ProxyHandler({})
             opener = urllib2.build_opener(proxy_handler)

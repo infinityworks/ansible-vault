@@ -21,7 +21,13 @@ from ansible.errors import AnsibleError
 
 class LookupModule(LookupBase):
 
-    def run(self, terms, variables, **kwargs):
+    def run(self, terms, inject=None, **kwargs):
+
+        try:
+            terms = template.template(self.basedir, terms, inject)
+        except Exception, e:
+            pass
+
         key = terms[0]
         try:
             field = terms[1]

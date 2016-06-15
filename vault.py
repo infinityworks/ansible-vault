@@ -24,11 +24,10 @@ class LookupModule(LookupBase):
     def run(self, terms, inject=None, **kwargs):
 
         try:
-            terms = template.template(self.basedir, terms, inject)
+            key = template.template(self.basedir, terms[0], inject)
         except Exception, e:
             pass
-
-        key = terms[0]
+            
         try:
             field = terms[1]
         except:

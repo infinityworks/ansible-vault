@@ -4,9 +4,22 @@ import json
 import sys
 from urlparse import urljoin
 
-from ansible.errors import AnsibleError
-from ansible.plugins.lookup import LookupBase
 
+try:
+    # ansible-2.0
+    from ansible.plugins.lookup import LookupBase
+except ImportError:
+    # ansible-1.9.x
+
+    class LookupBase(object):
+        def __init__(self, basedir=None, runner=None, **kwargs):
+            self.runner = runner
+            self.basedir = self.runner.basedir
+
+        def get_basedir(self, variables):
+            return self.basedir
+
+from ansible.errors import AnsibleError
 
 class LookupModule(LookupBase):
 

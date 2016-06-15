@@ -12,13 +12,11 @@ except ImportError:
     # ansible-1.9.x
 
     class LookupBase(object):
-        def __init__(self, basedir=None, runner=None, **kwargs):
-            self.runner = runner
-            self.basedir = self.runner.basedir
+        def __init__(self, basedir=None, **kwargs):
+            self.basedir = basedir
 
-        def get_basedir(self, variables):
-            return self.basedir
-
+from ansible import utils
+from ansible.utils import template
 from ansible.errors import AnsibleError
 
 class LookupModule(LookupBase):

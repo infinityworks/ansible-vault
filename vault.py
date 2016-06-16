@@ -4,13 +4,15 @@ import json
 import sys
 from urlparse import urljoin
 
+isNotV2 = false
 
 try:
     # ansible-2.0
     from ansible.plugins.lookup import LookupBase
+    isNotV2 = false
 except ImportError:
     # ansible-1.9.x
-
+    isNotV2 = true
     class LookupBase(object):
         def __init__(self, basedir=None, **kwargs):
             self.basedir = basedir
@@ -25,7 +27,7 @@ class LookupModule(LookupBase):
 
         try:
             inject = variables['inject'] if 'inject' in variables else None
-            key = template.template(self.basedir, terms[0], inject)
+            key = template.template(self.basedir, terms[0], inject) if isNotV2 else terms[0]
         except Exception, e:
             pass
             

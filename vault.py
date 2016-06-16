@@ -21,9 +21,10 @@ from ansible.errors import AnsibleError
 
 class LookupModule(LookupBase):
 
-    def run(self, terms, inject=None, **kwargs):
+    def run(self, terms, variables, **kwargs):
 
         try:
+            inject = variables['inject'] if 'inject' in variables else None
             key = template.template(self.basedir, terms[0], inject)
         except Exception, e:
             pass

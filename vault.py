@@ -56,7 +56,6 @@ class LookupModule(LookupBase):
             # http://www.decalage.info/en/python/urllib2noproxy
             proxy_handler = urllib2.ProxyHandler({})
             opener = urllib2.build_opener(proxy_handler)
-            
             headers = { 'X-Vault-Token' : token }
             req = urllib2.Request(request_url, None, headers)
             response = opener.open(req)

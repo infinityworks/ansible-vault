@@ -48,7 +48,7 @@ class LookupModule(LookupBase):
         if not token:
             token = self.get_local_auth_token()
         if not token:
-            raise AnsibleError('VAULT_TOKEN environment variable is missing')
+            raise AnsibleError('VAULT_TOKEN environment variable and $HOME/.vault-token are both missing')
 
         request_url = urljoin(url, "v1/%s" % (key))
         try:
@@ -70,6 +70,8 @@ class LookupModule(LookupBase):
 
     def get_local_auth_token(self):
         locpath = os.getenv('HOME') + '/.vault-token'
+        if not os.path.isfile(locpath):
+            return None
         retval = ''
         with file(locpath) as f:
             retval = f.read()
